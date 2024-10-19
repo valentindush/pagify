@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+langchain
+langchain-community
+langchain-groq
+pydantic
+beautifulsoup4
+PyYAML
+ipython

@@ -1,17 +1,11 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from langchain_openai import ChatOpenAI
-import os
-
-os.environ["LANGCHAIN_TRACING_V2"] = "true"
-os.environ["LANGCHAIN_ENDPOINT"] = "https://api.smith.langchain.com"
-os.environ["LANGCHAIN_API_KEY"] = "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"
-os.environ["LANGCHAIN_PROJECT"] = "pr-warmhearted-pamphlet-96"
+from utils.langchain_helper import summarize_webpage
 
 app = FastAPI()
 
 class Summarize(BaseModel):
-    content: str
+    url: str
 
 @app.get("/")
 def read_root():
@@ -19,6 +13,8 @@ def read_root():
 
 @app.post("/summarize")
 def summarize(summ: Summarize):
-    llm = ChatOpenAI()
-    llm.invoke("Hello, world!")
-    return {"Content": summ.content}
+    try:
+        result = summarize_webpage(summ.url)
+        return result
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
