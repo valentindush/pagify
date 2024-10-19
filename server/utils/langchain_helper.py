@@ -1,19 +1,21 @@
 import os
-from langchain_groq import ChatGroq
-from langchain_community.document_loaders import WebBaseLoader
-from langchain.chains import LLMChain
-from langchain.output_parsers import PydanticOutputParser
-from pydantic import BaseModel, Field
-from langchain.prompts import PromptTemplate
 from typing import List
-import json
 
-assert "GROQ_API_KEY" in os.environ, "GROQ_API_KEY not found in environment variables"
+from langchain.output_parsers import PydanticOutputParser
+from langchain.prompts import PromptTemplate
+from langchain_community.document_loaders import WebBaseLoader
+from langchain_groq import ChatGroq
+from pydantic import BaseModel, Field
+import os
+
+os.environ["GROQ_API_KEY"] = "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"
+
 
 class WebPageSummary(BaseModel):
     title: str = Field(description="A concise title for the web page content.")
     summary: str = Field(description="A brief summary of the web page content.")
     key_points: List[str] = Field(description="A list of 3-5 key points to highlight in the web page content.")
+
 
 def summarize_webpage(url: str) -> dict:
     # Initialize LLM
@@ -47,9 +49,7 @@ def summarize_webpage(url: str) -> dict:
     )
 
     # Create and run chain
-    chain = LLMChain(llm=llm, prompt=prompt)
-    result = chain.run(document.page_content)
+    chain = prompt | llm | parser
+    result = chain.invoke({"text": document.page_content})
 
-    # Parse and return result
-    parsed_result = parser.parse(result)
-    return parsed_result.model_dump(exclude_none=True)
+    return result

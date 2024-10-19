@@ -12,12 +12,19 @@
     <div class="glass-panel">
       <h1 class="title">Pagify</h1>
       <p class="subtitle">AI-Powered Page Summarizer</p>
+      
       <button id="summarize-btn" class="btn-summarize">Summarize Page</button>
+      
+      <!-- Loading spinner (hidden by default) -->
+      <div id="loading-spinner" class="spinner" style="display: none;"></div>
+      
+      <!-- Div to display the summary -->
       <div id="summary" class="summary-container">
         <p class="summary-placeholder">Your summary will appear here...</p>
       </div>
     </div>
   </div>
+  
   <script src="popup.js"></script>
 </body>
 </html>
