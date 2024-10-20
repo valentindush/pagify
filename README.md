@@ -12,11 +12,15 @@ A browser extension for AI page summarization using **LangChain**
 
 ### Server
 1. Navigate to the `./server`
-2. Create `.env` file
+2. Install packages
+    ```bash
+    pip install -r requirements.txt
+    ```
+3. Create `.env` file
     ```bash
     GROQ_API_KEY = <gsk_...>
     ```
-3. Run the server
+4. Run the server
     ```bash
     fastapi dev main.py
     ```

@@ -7,9 +7,9 @@ from langchain_community.document_loaders import WebBaseLoader
 from langchain_groq import ChatGroq
 from pydantic import BaseModel, Field
 import os
+from dotenv import load_dotenv
 
-os.environ["GROQ_API_KEY"] = "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"
-
+load_dotenv() 
 
 class WebPageSummary(BaseModel):
     title: str = Field(description="A concise title for the web page content.")
